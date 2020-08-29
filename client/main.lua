@@ -61,7 +61,7 @@ function SpawnTruck()
   trailer = CreateVehicle(trailerhash, Config.TrailerSpawnPoint.Pos.x, Config.TrailerSpawnPoint.Pos.y, Config.TrailerSpawnPoint.Pos.z, 0.0, true, false)
   SetEntityAsMissionEntity(trailer, true, true) --Same as above, not completely sure if it works
   
-  AtesxhVehicleToTrailer(truck, trailer, 1.1) --3rd parameter is the radius, if you changed the spawn locations for the truck and trailer, there might be a chance that you will have to change the radius too
+  AttachVehicleToTrailer(truck, trailer, 1.1) --3rd parameter is the radius, if you changed the spawn locations for the truck and trailer, there might be a chance that you will have to change the radius too
   
   TaskWarpPedIntoVehicle(GetPlayerPed(-1), truck, -1) --Teleport the player into the truck, last parameter is the seat
   
@@ -101,7 +101,7 @@ function SpawnTruck()
 end
 
 function FinishDelivery()
-  if IsVehicleAtesxhedToTrailer(truck) and (GetVehiclePedIsIn(GetPlayerPed(-1), false) == truck) then
+  if IsVehicleAttachedToTrailer(truck) and (GetVehiclePedIsIn(GetPlayerPed(-1), false) == truck) then
     --Delete trailer but we leave him with the truck so he can go back
     DeleteVehicle(trailer)
 
@@ -168,7 +168,7 @@ Citizen.CreateThread(function()
 		local isInMarker  = false
 		local currentZone = nil
       
-		if(GetDistanceBetweenCoords(coords, Config.Zones.VehicleSpawner.Pos.x, Config.Zones.VehicleSpawner.Pos.y, Config.Zones.VehicleSpawner.Pos.z, true) < 3) and PlayerData.job ~= nil and PlayerData.job.name == 'trucker2' then
+		if(GetDistanceBetweenCoords(coords, Config.Zones.VehicleSpawner.Pos.x, Config.Zones.VehicleSpawner.Pos.y, Config.Zones.VehicleSpawner.Pos.z, true) < 3) and PlayerData.job ~= nil and PlayerData.job.name == 'trucker' then
 			isInMarker  = true
 			currentZone = 'menutrucker'
 			LastZone    = 'menutrucker'
@@ -228,7 +228,7 @@ Citizen.CreateThread(function()
     Wait(0)
     local coords = GetEntityCoords(GetPlayerPed(-1))
     for k,v in pairs(Config.Zones) do
-			if (v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) and PlayerData.job ~= nil and PlayerData.job.name == 'trucker2' then
+			if (v.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos.x, v.Pos.y, v.Pos.z, true) < Config.DrawDistance) and PlayerData.job ~= nil and PlayerData.job.name == 'trucker' then
 				DrawMarker(v.Type, v.Pos.x, v.Pos.y, v.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, v.Size.x, v.Size.y, v.Size.z, v.Color.r, v.Color.g, v.Color.b, 100, false, true, 2, false, false, false, false)
 			end
 		end
